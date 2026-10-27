@@ -78,9 +78,11 @@ async function setup() {
   cloudImg = await loadImage("cloud.png");
  
   wormGif = await loadImage("worm.gif");
-  wormBufs = [buf1, buf2, buf3, buf4];
+  wormBufs = [buf1, buf2, buf3, buf4, buf5];
   worm = new CHARACTER(wormBufs, wormGif);
  
+pMapper.load("map.json");
+
 }
 
 
@@ -771,21 +773,27 @@ class CHARACTER {
 function draw() {
     background(0);
 
-    tanvi_sketch(buf1);
-    blue_bg(buf2);
-    jenny_bg(buf3);
-    nicole_bg(buf4);
-    jenny_bg(buf5)
+    // tanvi_sketch(buf1);
+    // blue_bg(buf2);
+    // jenny_bg(buf3);
+    // nicole_bg(buf4);
+    // jenny_bg(buf5)
+
+    jenny_bg(buf1);
+    jenny_bg(buf2);
+    nicole_bg(buf3);
+    tanvi_sketch(buf4);
+    blue_bg(buf5);
 
     if (worm) {
         worm.update();
         worm.display();
     }
-    quadMap.displayTexture(buf1);
-    quadMap2.displayTexture(buf2);
-    quadMap3.displayTexture(buf3);
-    quadMap4.displayTexture(buf4);
-    quadMap5.displayTexture(buf5);
+    quadMap.displayTexture(buf4);
+    quadMap2.displayTexture(buf5);
+    quadMap3.displayTexture(buf1);
+    quadMap4.displayTexture(buf3);
+    quadMap5.displayTexture(buf2);
 
 
 
