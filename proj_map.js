@@ -781,12 +781,11 @@ function draw() {
         worm.update();
         worm.display();
     }
-
+    quadMap.displayTexture(buf1);
+    quadMap2.displayTexture(buf2);
     quadMap3.displayTexture(buf3);
     quadMap4.displayTexture(buf4);
-    quadMap2.displayTexture(buf2);
-    quadMap.displayTexture(buf1);
-    quadMap.displayTexture(buf5);
+    quadMap5.displayTexture(buf5);
 
 
 
