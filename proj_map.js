@@ -11,6 +11,11 @@ let mushrooms = []
 let spores = []
 let colors_mushrooms = [[255, 120, 210], [120, 180, 255], [190, 130, 255]]
 
+// jenny's sketch
+let cloudImg;
+let cloudX = 40;
+let cloudX2 = 300;
+
 
 async function setup() {
   createCanvas(windowWidth, windowHeight, WEBGL);
@@ -28,14 +33,14 @@ async function setup() {
   buf4 = createGraphics(400, 400);
 
 
-  // BELLA SKETCH 
+   // BELLA SKETCH 
   for (let i = 0; i < 16; i++) {
     let x = random(buf2.width)
     let h = random(35, 110)
     let c = random(colors_mushrooms)
     mushrooms.push(new Mushroom(x, 315, h, c))
   }
-
+ 
   for (let i = 0; i < 90; i++) {
     spores.push({
       x: random(buf2.width),
@@ -46,12 +51,16 @@ async function setup() {
       blinkSpeed: random(0.5, 1.5)
     })
   }
-
+ 
+  // jenny's sketch
+  cloudImg = await loadImage("cloud.png");
+ 
   wormGif = await loadImage("worm.gif");
   wormBufs = [buf1, buf2, buf3, buf4];
   worm = new CHARACTER(wormBufs, wormGif);
-
+ 
 }
+
 
 // let colors = ['#FFD4D4', '#FF9FE5', '#2B50AA', '#FF858D'];
 //   let colors = ['#7FA3C4', '#4F77A3', '#2B4A7A', '#11274F'];
@@ -191,6 +200,71 @@ function blue_bg(pg) {
 
 }
 
+//jenny
+
+function jenny_bg(pg) {
+  let groundY = pg.height - 80; 
+ 
+  pg.background(92, 148, 252);
+  pg.noStroke();
+ 
+
+  pg.image(cloudImg, cloudX, 30, 100, 50);
+  pg.image(cloudImg, cloudX2, 80, 70, 35);
+  cloudX = cloudX + 0.5;
+  cloudX2 = cloudX2 + 0.3;
+  if (cloudX > pg.width) cloudX = -100;
+  if (cloudX2 > pg.width) cloudX2 = -70;
+ 
+
+  drawHill(pg, 100, groundY, 200, 120);
+  drawHill(pg, 320, groundY, 260, 160);
+ 
+  drawGround(pg, groundY);
+ 
+
+  drawBlock(pg, 120, groundY - 80);
+  drawBlock(pg, 280, groundY - 120);
+  drawBlock(pg, 310, groundY - 120);
+  drawBlock(pg, 340, groundY - 120);
+}
+ 
+function drawHill(pg, x, y, w, h) {
+  pg.fill(0, 168, 0);
+  pg.ellipse(x, y, w, h);
+}
+ 
+function drawGround(pg, groundY) {
+  pg.fill(200, 76, 12);
+  pg.rect(0, groundY, pg.width, pg.height - groundY);
+ 
+  pg.stroke(0);
+  pg.line(0, groundY + 20, pg.width, groundY + 20);
+  pg.line(0, groundY + 40, pg.width, groundY + 40);
+  pg.line(0, groundY + 60, pg.width, groundY + 60);
+ 
+  for (let x = 0; x < pg.width; x = x + 40) {
+    pg.line(x, groundY, x, pg.height);
+  }
+  pg.noStroke();
+}
+ 
+function drawBlock(pg, x, y) {
+  pg.fill(252, 160, 68);
+  pg.rect(x, y, 30, 30);
+ 
+  pg.fill(0);
+  pg.textSize(22);
+  pg.textAlign(CENTER, CENTER);
+  pg.text("?", x + 15, y + 15);
+}
+ 
+function another_bg(pg) {
+  pg.background(10, 100, 50);
+}
+
+
+
 function green_bg(pg) {
   pg.background(0, 255, 0);
 }
@@ -205,7 +279,7 @@ function keyPressed() {
   if (key === "l") pMapper.load("maps/map.json");
   if (key === "f") fullscreen(!fullscreen());
 
-  // stop the arrow keys from scrolling the page
+
   if ([LEFT_ARROW, RIGHT_ARROW, UP_ARROW, DOWN_ARROW].includes(keyCode)) {
     return false;
   }
@@ -289,7 +363,7 @@ function draw() {
 
     tanvi_sketch(buf1);
     blue_bg(buf2);
-    green_bg(buf3);
+    jenny_bg(buf3);
     another_bg(buf4);
 
     if (worm) {
