@@ -1,6 +1,6 @@
 let pMapper;
-let quadMap, quadMap2, quadMap3, quadMap4;
-let buf1, buf2, buf3, buf4;
+let quadMap, quadMap2, quadMap3, quadMap4, quadMap5;
+let buf1, buf2, buf3, buf4, buf5;
 
 let worm;
 let wormBufs = [];
@@ -33,12 +33,16 @@ async function setup() {
   quadMap2 = pMapper.createQuadMap(300, 200, 20, 20);
   quadMap3 = pMapper.createQuadMap(300, 300, 20, 20);
   quadMap4 = pMapper.createQuadMap(300, 300, 20, 20);
+  quadMap5 = pMapper.createQuadMap(300, 300, 20, 20);
+
 
   // all buffers 2D so the worm (and waves) use the same top-left origin
   buf1 = createGraphics(400, 400);
   buf2 = createGraphics(400, 400);
   buf3 = createGraphics(400, 400);
   buf4 = createGraphics(400, 400);
+  buf5 = createGraphics(400, 400);
+
 
 
    // BELLA SKETCH 
@@ -783,6 +787,7 @@ function draw() {
     blue_bg(buf2);
     jenny_bg(buf3);
     nicole_bg(buf4);
+    jenny_bg(buf5)
 
     if (worm) {
         worm.update();
@@ -793,6 +798,7 @@ function draw() {
     quadMap4.displayTexture(buf4);
     quadMap2.displayTexture(buf2);
     quadMap.displayTexture(buf1);
+    quadMap.displayTexture(buf5);
 
 
 
