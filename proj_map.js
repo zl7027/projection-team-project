@@ -11,6 +11,14 @@ let mushrooms = []
 let spores = []
 let colors_mushrooms = [[255, 120, 210], [120, 180, 255], [190, 130, 255]]
 
+//Nicole's sketch
+let groundY = 300; 
+
+let ghostX = -50;
+let ghostSpeed = 0.65;
+
+let stars = [];
+
 // jenny's sketch
 let cloudImg;
 let cloudX = 40;
@@ -51,6 +59,16 @@ async function setup() {
       blinkSpeed: random(0.5, 1.5)
     })
   }
+
+    // Nicole
+ for (let i = 0; i < 25; i++) {
+  stars.push({
+    x: random(15, 385),
+    y: random(15, 150),
+    size: random(2, 5),
+    phase: random(TWO_PI)
+  });
+}
  
   // jenny's sketch
   cloudImg = await loadImage("cloud.png");
@@ -60,6 +78,7 @@ async function setup() {
   worm = new CHARACTER(wormBufs, wormGif);
  
 }
+
 
 
 // let colors = ['#FFD4D4', '#FF9FE5', '#2B50AA', '#FF858D'];
@@ -198,6 +217,405 @@ function blue_bg(pg) {
   }
 
 
+}
+
+
+//Nicole's sketch
+
+function nicole_bg(pg) {
+  pg.push();
+
+  pg.angleMode(RADIANS);
+  pg.colorMode(RGB);
+  pg.rectMode(CORNER);
+  pg.ellipseMode(CENTER);
+
+  pg.background("#302039");
+
+  // sky
+  let topCol = color("#35234f");
+  let bottomCol = color("#bd82a5");
+
+  pg.noStroke();
+
+  for (let y = 0; y < groundY; y++) {
+    let amount = y / (groundY - 1);
+    let col = lerpColor(topCol, bottomCol, amount);
+
+    pg.fill(col);
+    pg.rect(0, y, 400, 1);
+  }
+
+  drawMoon(pg);
+
+  // star small
+  for (let i = 0; i < stars.length; i++) {
+    let s = stars[i];
+
+    let light =
+      (Math.sin(frameCount * 0.065 + s.phase) + 1) / 2;
+
+    pg.fill(255, 225, 160, 20 + light * 235);
+    pg.circle(s.x, s.y, s.size * (0.5 + light));
+  }
+
+  // star big
+  drawStar(pg, 32.5, 122.5, 11, 0);
+  drawStar(pg, 195, 42.5, 13, 2);
+  drawStar(pg, 359, 75, 13.5, 4);
+
+  // hills
+  pg.noStroke();
+
+  pg.fill("#626b39");
+  pg.ellipse(60, 300.5, 285, 107.5);
+
+  pg.fill("#727d43");
+  pg.ellipse(346, 309, 235, 115);
+
+  // pumpkin
+  drawPumpkin(pg, 73.5, 264.5, 0.56, false);
+  drawPumpkin(pg, 175.5, 225, 1.15, true);
+  drawPumpkin(pg, 277, 268, 0.53, false);
+
+  // cat
+  drawCat(pg, 338, 255);
+
+  
+  for (let i = 0; i < 15; i++) {
+    pg.push();
+    pg.translate(14 + i * 27, 294.5);
+    pg.rotate(-0.7 + (i % 3) * 0.6);
+    pg.noStroke();
+
+    if (i % 2 === 0) {
+      pg.fill("#d48735");
+    } else {
+      pg.fill("#394f37");
+    }
+
+    pg.ellipse(0, -6.5, 7.5, 18);
+    pg.pop();
+  }
+
+  // ghost
+  ghostX += ghostSpeed;
+
+  if (ghostX > 450) {
+    ghostX = -50;
+  }
+
+
+  let ghostY =
+    140 + Math.sin(frameCount * 0.035) * 11;
+
+  drawGhost(pg, ghostX, ghostY);
+
+  // underground
+  pg.noStroke();
+  pg.fill("#302039");
+  pg.rect(0, groundY, 400, 400 - groundY);
+
+  pg.pop();
+}
+
+
+// moon
+function drawMoon(pg) {
+  pg.push();
+  pg.translate(77.5, 70);
+
+  pg.noStroke();
+  pg.fill("#ffe19a");
+
+  pg.beginShape();
+  pg.vertex(17.5, -37.5);
+
+  pg.vertex(
+    -32.5, -42.5,
+    -52.5, 17.5,
+    -10, 37.5
+  );
+
+  pg.vertex(
+    5, 45,
+    22.5, 40,
+    32.5, 27.5
+  );
+
+  pg.vertex(
+    -7.5, 35,
+    -27.5, -10,
+    17.5, -37.5
+  );
+
+  pg.endShape(CLOSE);
+  pg.pop();
+}
+
+
+function drawStar(pg, x, y, size, phase) {
+  let light =
+    (Math.sin(frameCount * 0.06 + phase) + 1) / 2;
+
+  pg.push();
+  pg.translate(x, y);
+
+  pg.noStroke();
+  pg.fill(255, 225, 160, 25 + light * 230);
+
+  pg.beginShape();
+
+  for (let i = 0; i < 16; i++) {
+    let angle = i * TWO_PI / 16;
+    let radius;
+
+    if (i % 2 === 0) {
+      radius = size;
+    } else {
+      radius = size * 0.22;
+    }
+
+  
+    radius *= 0.6 + light * 0.5;
+
+    pg.vertex(
+      Math.cos(angle) * radius,
+      Math.sin(angle) * radius
+    );
+  }
+
+  pg.endShape(CLOSE);
+  pg.pop();
+}
+
+
+// pumpkin
+function drawPumpkin(pg, x, y, size, face) {
+  pg.push();
+  pg.translate(x, y);
+
+  
+  pg.scale(size);
+
+
+  pg.noFill();
+  pg.stroke("#3d5136");
+  pg.strokeWeight(9);
+
+  pg.bezier(
+    0, -41.5,
+    -5, -64,
+    9.5, -75.5,
+    20, -67
+  );
+
+  
+  pg.noStroke();
+
+  pg.fill("#db6627");
+  pg.ellipse(-29, 0, 51.5, 82);
+  pg.ellipse(29, 0, 51.5, 82);
+
+  pg.fill("#ef812e");
+  pg.ellipse(-15.5, 0, 52.5, 93.5);
+  pg.ellipse(15.5, 0, 52.5, 93.5);
+
+  pg.fill("#f18c35");
+  pg.ellipse(0, 0, 42, 98);
+
+  // texture
+  pg.noFill();
+  pg.stroke("#9c4729");
+  pg.strokeWeight(1);
+
+  pg.bezier(
+    -16, -43,
+    -32, -22.5,
+    -32, 22.5,
+    -16, 43
+  );
+
+  pg.bezier(
+    16, -43,
+    32, -22.5,
+    32, 22.5,
+    16, 43
+  );
+
+  // face
+  if (face) {
+    pg.noStroke();
+    pg.fill("#30282a");
+
+    pg.triangle(
+      -28.5, -8.5,
+      -17.5, -26.5,
+      -8.5, -8.5
+    );
+
+    pg.triangle(
+      8.5, -8.5,
+      17.5, -26.5,
+      28.5, -8.5
+    );
+
+    pg.triangle(-5, 5.5, 0, -4.5, 6, 5.5);
+
+    pg.arc(0, 11, 59.5, 39, 0, PI, CHORD);
+
+    pg.fill("#f18c35");
+    pg.rect(-14.5, 10.5, 6, 9);
+    pg.rect(7, 23.5, 6, 7);
+  }
+
+  pg.pop();
+}
+
+
+// cat
+function drawCat(pg, x, y) {
+  pg.push();
+  pg.translate(x, y);
+
+  let tailSwing = Math.sin(frameCount * 0.045) * 12;
+
+  // tail
+  pg.noFill();
+  pg.stroke("#211d28");
+  pg.strokeWeight(6.5);
+  pg.strokeCap(ROUND);
+
+  pg.bezier(
+    12.5, 32.5,
+    48.5 + tailSwing * 0.3, 35,
+    22 + tailSwing, -9,
+    39 + tailSwing, -6
+  );
+
+  
+  pg.noStroke();
+  pg.fill("#211d28");
+
+  pg.ellipse(0, 12.5, 41.5, 60);
+  pg.ellipse(0, -21.5, 46, 36.5);
+
+  
+  pg.triangle(
+    -21.5, -27.5,
+    -21, -51.5,
+    -5, -38
+  );
+
+  pg.triangle(
+    6, -38.5,
+    20, -52.5,
+    22, -26.5
+  );
+
+  
+  pg.ellipse(-9, 35, 14.5, 10);
+  pg.ellipse(9, 35, 14.5, 10);
+
+  
+  let blink = frameCount % 240 > 229;
+
+  pg.fill("#f5cc72");
+
+  if (blink) {
+    pg.ellipse(-10.5, -22, 12.5, 1.5);
+    pg.ellipse(10.5, -22, 12.5, 1.5);
+  } else {
+    pg.ellipse(-10.5, -22, 12.5, 7);
+    pg.ellipse(10.5, -22, 12.5, 7);
+
+    pg.fill("#211d28");
+    pg.ellipse(-10.5, -22, 2.5, 7.5);
+    pg.ellipse(10.5, -22, 2.5, 7.5);
+  }
+
+  
+  pg.fill("#d98967");
+  pg.triangle(-2.5, -14.5, 2.5, -14.5, 0, -12);
+
+  
+  pg.stroke("#211d28");
+  pg.strokeWeight(1);
+
+  for (let i = 0; i < 3; i++) {
+    pg.line(
+      -22, -14.5 + i * 3.5,
+      -31.5, -18 + i * 5
+    );
+
+    pg.line(
+      22, -14.5 + i * 3.5,
+      31.5, -18 + i * 5
+    );
+  }
+
+  pg.pop();
+}
+
+
+// ghost
+function drawGhost(pg, x, y) {
+  pg.push();
+  pg.translate(x, y);
+
+  pg.rotate(Math.sin(frameCount * 0.025) * 0.08);
+
+  pg.noStroke();
+  pg.fill("#fff0c9");
+
+  pg.beginShape();
+  pg.vertex(-21, 10);
+
+  pg.bezierVertex(
+    -24.5, -6.5,
+    -20.5, -26,
+    -5, -27.5
+  );
+
+  pg.bezierVertex(
+    12, -30,
+    20.5, -17,
+    21, -4
+  );
+
+  pg.bezierVertex(
+    21.5, 7,
+    26.5, 12,
+    32, 15.5
+  );
+
+  pg.bezierVertex(
+    23.5, 27,
+    17.5, 12.5,
+    11, 20
+  );
+
+  pg.bezierVertex(
+    2.5, 29,
+    -1, 14.5,
+    -7.5, 20.5
+  );
+
+  pg.bezierVertex(
+    -15.5, 25.5,
+    -19, 17,
+    -21, 10
+  );
+
+  pg.endShape(CLOSE);
+
+  
+  pg.fill("#30282a");
+  pg.ellipse(-6, -8.5, 4.5, 7.5);
+  pg.ellipse(6, -8.5, 4.5, 7.5);
+  pg.ellipse(0.5, 2, 4, 5.5);
+
+  pg.pop();
 }
 
 //jenny
@@ -364,7 +782,7 @@ function draw() {
     tanvi_sketch(buf1);
     blue_bg(buf2);
     jenny_bg(buf3);
-    another_bg(buf4);
+    nicole_bg(buf4);
 
     if (worm) {
         worm.update();
