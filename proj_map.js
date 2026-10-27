@@ -332,26 +332,22 @@ function drawMoon(pg) {
   pg.noStroke();
   pg.fill("#ffe19a");
 
+  pg.bezierOrder(3);
   pg.beginShape();
-  pg.vertex(17.5, -37.5);
 
-  pg.vertex(
-    -32.5, -42.5,
-    -52.5, 17.5,
-    -10, 37.5
-  );
+  pg.bezierVertex(17.5, -37.5);
 
-  pg.vertex(
-    5, 45,
-    22.5, 40,
-    32.5, 27.5
-  );
+  pg.bezierVertex(-32.5, -42.5);
+  pg.bezierVertex(-52.5, 17.5);
+  pg.bezierVertex(-10, 37.5);
 
-  pg.vertex(
-    -7.5, 35,
-    -27.5, -10,
-    17.5, -37.5
-  );
+  pg.bezierVertex(5, 45);
+  pg.bezierVertex(22.5, 40);
+  pg.bezierVertex(32.5, 27.5);
+
+  pg.bezierVertex(-7.5, 35);
+  pg.bezierVertex(-27.5, -10);
+  pg.bezierVertex(17.5, -37.5);
 
   pg.endShape(CLOSE);
   pg.pop();
@@ -572,48 +568,40 @@ function drawGhost(pg, x, y) {
   pg.noStroke();
   pg.fill("#fff0c9");
 
+  pg.bezierOrder(3);
   pg.beginShape();
-  pg.vertex(-21, 10);
 
-  pg.bezierVertex(
-    -24.5, -6.5,
-    -20.5, -26,
-    -5, -27.5
-  );
+  pg.bezierVertex(-21, 10);
 
-  pg.bezierVertex(
-    12, -30,
-    20.5, -17,
-    21, -4
-  );
+  pg.bezierVertex(-24.5, -6.5);
+  pg.bezierVertex(-20.5, -26);
+  pg.bezierVertex(-5, -27.5);
 
-  pg.bezierVertex(
-    21.5, 7,
-    26.5, 12,
-    32, 15.5
-  );
 
-  pg.bezierVertex(
-    23.5, 27,
-    17.5, 12.5,
-    11, 20
-  );
+  pg.bezierVertex(12, -30);
+  pg.bezierVertex(20.5, -17);
+  pg.bezierVertex(21, -4);
 
-  pg.bezierVertex(
-    2.5, 29,
-    -1, 14.5,
-    -7.5, 20.5
-  );
 
-  pg.bezierVertex(
-    -15.5, 25.5,
-    -19, 17,
-    -21, 10
-  );
+  pg.bezierVertex(21.5, 7);
+  pg.bezierVertex(26.5, 12);
+  pg.bezierVertex(32, 15.5);
+
+
+  pg.bezierVertex(23.5, 27);
+  pg.bezierVertex(17.5, 12.5);
+  pg.bezierVertex(11, 20);
+
+  pg.bezierVertex(2.5, 29);
+  pg.bezierVertex(-1, 14.5);
+  pg.bezierVertex(-7.5, 20.5);
+
+  pg.bezierVertex(-15.5, 25.5);
+  pg.bezierVertex(-19, 17);
+  pg.bezierVertex(-21, 10);
 
   pg.endShape(CLOSE);
 
-  
   pg.fill("#30282a");
   pg.ellipse(-6, -8.5, 4.5, 7.5);
   pg.ellipse(6, -8.5, 4.5, 7.5);
