@@ -80,6 +80,7 @@ async function setup() {
   wormGif = await loadImage("worm.gif");
   wormBufs = [buf1, buf2, buf3, buf4, buf5];
   worm = new CHARACTER(wormBufs, wormGif);
+  wormGif.gifProperties.loopLimit = null;
  
 pMapper.load("map.json");
 
