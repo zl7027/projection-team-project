@@ -1,6 +1,6 @@
 let pMapper;
-let quadMap, quadMap2, quadMap3, quadMap4;
-let buf1, buf2, buf3, buf4;
+let quadMap, quadMap2, quadMap3, quadMap4, quadMap5;
+let buf1, buf2, buf3, buf4, buf5;
 
 let worm;
 let wormBufs = [];
@@ -33,12 +33,16 @@ async function setup() {
   quadMap2 = pMapper.createQuadMap(300, 200, 20, 20);
   quadMap3 = pMapper.createQuadMap(300, 300, 20, 20);
   quadMap4 = pMapper.createQuadMap(300, 300, 20, 20);
+  quadMap5 = pMapper.createQuadMap(300, 300, 20, 20);
+
 
   // all buffers 2D so the worm (and waves) use the same top-left origin
   buf1 = createGraphics(400, 400);
   buf2 = createGraphics(400, 400);
   buf3 = createGraphics(400, 400);
   buf4 = createGraphics(400, 400);
+  buf5 = createGraphics(400, 400);
+
 
 
    // BELLA SKETCH 
@@ -74,9 +78,11 @@ async function setup() {
   cloudImg = await loadImage("cloud.png");
  
   wormGif = await loadImage("worm.gif");
-  wormBufs = [buf1, buf2, buf3, buf4];
+  wormBufs = [buf1, buf2, buf3, buf4, buf5];
   worm = new CHARACTER(wormBufs, wormGif);
  
+pMapper.load("map.json");
+
 }
 
 
@@ -767,20 +773,27 @@ class CHARACTER {
 function draw() {
     background(0);
 
-    tanvi_sketch(buf1);
-    blue_bg(buf2);
-    jenny_bg(buf3);
-    nicole_bg(buf4);
+    // tanvi_sketch(buf1);
+    // blue_bg(buf2);
+    // jenny_bg(buf3);
+    // nicole_bg(buf4);
+    // jenny_bg(buf5)
+
+    jenny_bg(buf1);
+    jenny_bg(buf2);
+    nicole_bg(buf3);
+    tanvi_sketch(buf4);
+    blue_bg(buf5);
 
     if (worm) {
         worm.update();
         worm.display();
     }
-
-    quadMap3.displayTexture(buf3);
-    quadMap4.displayTexture(buf4);
-    quadMap2.displayTexture(buf2);
-    quadMap.displayTexture(buf1);
+    quadMap.displayTexture(buf4);
+    quadMap2.displayTexture(buf5);
+    quadMap3.displayTexture(buf1);
+    quadMap4.displayTexture(buf3);
+    quadMap5.displayTexture(buf2);
 
 
 
